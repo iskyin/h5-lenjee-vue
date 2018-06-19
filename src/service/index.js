@@ -11,7 +11,7 @@
 
    self.$ajax.get(url)
    .then(function (response) {
-       console.log('返回值 : ', response );
+       console.log(' ------------ 请求成功 ------------- ');
        callback(response);
    }).catch(function (error) {
        console.log("报错: ",error);

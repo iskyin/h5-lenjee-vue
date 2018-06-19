@@ -5,6 +5,7 @@ Vue.use(Router)
 import RouterArr from "./src/rootArr"
 
 const RouterObj= new Router({
+  mode: 'history',
   routes: RouterArr.routes
 })
 

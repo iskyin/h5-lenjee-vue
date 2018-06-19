@@ -32,6 +32,6 @@ export function setItem(key,value){
       console.error('localStorage.setItem报错, ', e.message);
     }
   } finally {
-    console.log('记录localstorage');
+    console.log(' ********* 记录localstorage完成 ********* ');
   }
 }
