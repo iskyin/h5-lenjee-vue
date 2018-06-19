@@ -13,7 +13,7 @@
         <yd-cell-item>
             <span slot="left">从地图中选择：</span>
             <span slot="right">
-              <div class="frm-list-right">
+              <div @click='getLoaction()' class="frm-list-right">
                 <img src="@/assets/img/map.png" alt="">
                 <div class="frm-addr-txt">点击选择</div>
               </div>
@@ -115,15 +115,39 @@ export default {
   name: 'Skyin-Search',
   data () {
     return {
-      phoneNum:'',
-      textArea:'',
+      textArea:'',  // 举报内容
+      phoneNum:'',  //
+
       imgNum:'0',
       videoNum:'0',
       radio: '1',
     }
   },
   methods: {
+    getLoaction(){
 
+      console.log("********** 使用微信内置地图查看位置接口 **********")
+      window.wx.openLocation({
+        latitude: 0, // 纬度，浮点数，范围为90 ~ -90
+        longitude: 0, // 经度，浮点数，范围为180 ~ -180。
+        name: '', // 位置名
+        address: '', // 地址详情说明
+        scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
+        infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+      });
+
+      console.log("********** 获取地理位置接口 **********")
+      window.wx.getLocation({
+        type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+        success: function (res) {
+          console.log(res.latitude); // 纬度，浮点数，范围为90 ~ -90
+          console.log(res.longitude); // 经度，浮点数，范围为180 ~ -180。
+          console.log(res.speed); // 速度，以米/每秒计
+          console.log(res.accuracy); // 位置精度
+        }
+      });
+
+    }
   }
 }
 </script>
