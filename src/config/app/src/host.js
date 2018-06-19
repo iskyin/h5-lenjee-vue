@@ -5,17 +5,17 @@
 export function setHost(hostName){
   let hostIP=''
   switch (hostName) {
-    case 'mock': // 本地数据模拟
+    case 'local': // 本地数据模拟
       hostIP='api';
     break;
     case 'dev': // 开发 服务器 地址
-      hostIP='http://www.lenjee.com:9998/api';
+      hostIP='http://119.29.230.189';
       break;
     case 'test': // 测试 服务器 地址
-      hostIP='http://www.lenjee.com:9998/api';
+      hostIP='';
       break;
     case 'prod': // 生产 服务器 地址
-      hostIP='http://www.lenjee.com:9998/api';
+      hostIP='';
       break;
     default:
       hostIP='http://error';

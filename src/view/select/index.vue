@@ -51,7 +51,7 @@ export default {
       this.$router.push("/search");
     },
     toRead(){ // 阅读
-      this.$router.push("/list");
+      this.$router.push("/gklg");
     },
   }
 }

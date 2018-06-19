@@ -19,7 +19,7 @@ class InitAppInfo {
       host:'', // 接口地址
       version:initInfo.version , // 设置版本号
       platform:'', // 系统平台信息
-      width:initInfo.version, // 设计图宽度
+      width:initInfo.docWidth, // 设计图宽度
     };
     // 把视觉稿中的px转换成rem
     setRem(window,initInfo.docWidth);

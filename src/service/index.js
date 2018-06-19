@@ -7,7 +7,7 @@
   * @param  {[type]} param [description]
   * @return {[type]}       [description]
   */
- export function GetWxInfo (self , url , callback){
+ export function AjaxGet (self , url , callback){
 
    self.$ajax.get(url)
    .then(function (response) {
