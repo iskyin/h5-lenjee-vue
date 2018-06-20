@@ -52,7 +52,7 @@ export default {
   },
   created(){
 
-    this.initWXInfo();
+    // this.initWXInfo();
 
   },
   methods: {

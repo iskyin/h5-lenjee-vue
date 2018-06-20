@@ -1,8 +1,7 @@
 
+import  _Bak from "@/view/_bak/index.vue";
 import  Guide from "@/view/guide/index.vue";
-import  Select from "@/view/select/index.vue";
 import  List from "@/view/list/index.vue";
-import  Detail from "@/view/detail/index.vue";
 import  Search from "@/view/search/index.vue";
 import  Sucess from "@/view/sucess/index.vue";
 import  NoData from "@/view/nodata/index.vue";
@@ -14,10 +13,15 @@ const RouterArr= [
           name: 'guide', // 引导页
           component: Guide,
       },
+      // {
+      //     path: '/',
+      //     name: '_bak', // 备案专用
+      //     component: _Bak
+      // },
       {
           path: '/gklg',
           name: 'gklg', // 常识
-          component: Gklg,
+          component: Gklg
       },
       {
           path: '/select',
@@ -27,7 +31,7 @@ const RouterArr= [
       {
           path: '/list',
           name: 'list', // 列表
-          component: resolve=>require(['@/view/list/index.vue'],resolve) // 懒加载
+          component:List
       },
       {
           path: '/detail',
@@ -37,17 +41,17 @@ const RouterArr= [
       {
           path: '/search',
           name: 'search', // 查询
-          component: resolve=>require(['@/view/search/index.vue'],resolve) // 懒加载
+          component: Search
       },
       {
           path: '/sucess',
           name: 'sucess', // 成功
-          component: resolve=>require(['@/view/sucess/index.vue'],resolve) // 懒加载
+          component: Sucess
       },
       {
           path: '/nodata',
           name: 'nodata', // 无数据
-          component: resolve=>require(['@/view/nodata/index.vue'],resolve) // 懒加载
+          component: NoData
       }
   ]
 
