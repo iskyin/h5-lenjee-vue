@@ -15,9 +15,7 @@ new initAppInfo({
 });
 
 // 请求
-import {  AjaxGet } from '@/service/ajax.js';
-// 注册 js-sdk
-import { RegistJsSdk } from '@/service/wechat_jssdk.js';
+import {  AjaxGet , AjaxGetObj} from '@/service/ajax.js';
 // 缓存
 import Cache from '@/util/cache';
 // 公共方法
@@ -31,46 +29,53 @@ export default {
     }
   },
   created(){
-
-    this.initWXInfo();
-
+    this.initPage();
   },
   methods: {
-    initWXInfo(){
-      RegistJsSdk(this);
-    },
-    userCookie(code){ // 验证cookie
+    initPage(){
+      let time=Common.time.ymdhms();
+      console.log('time --> : ',time);
+      // 验证cookie
+      let ck_cookie=Cache.cookie.get("openid");
+      console.log(' ck_cookie --> ',ck_cookie);
+      if(ck_cookie==null){
+        this.userCookie(time);
+      }
 
-      let appUrl=window.__APPINFO__.host+"/home/auth/check_auth_code?code="+code;
-      console.log("userCookie -> ",appUrl);
+    },
+    userCookie(time){ // 验证cookie
+      let self=this;
+      let appUrl=window.__APPINFO__.host+"/home/auth/check_auth_code?code="+time;
 
       AjaxGet(this,appUrl,(res)=>{
-        console.log('userCookie -> 返回值 : ', res );
+        console.log('userCookie -> 返回值 : ', res ,' -> ',res.data.code);
+
+        if(res.data.code ==0 ){
+          let resVal=res.data.result;
+          Cache.cookie.set('head_img',resVal.head_img,365);
+          Cache.cookie.set('nickname',resVal.nickname,365);
+          Cache.cookie.set('openid',resVal.openid,365);
+          Cache.cookie.set('ticket',resVal.ticket,365);
+          // 获取token
+          self.userToken(resVal.openid,resVal.ticket);
+        }
+
       });
 
     },
     userToken(openid,ticket){
-      let appUrl=window.__APPINFO__.host+" /home/auth/get_token?openid="
-                +openid+"&ticket="
-                +ticket+"&oepnid="
-                +code;
-      console.log("userCookie -> ",appUrl);
-
-      AjaxGet(this,appUrl,(res)=>{
-        console.log('userCookie -> 返回值 : ', res );
+      let appUrl=window.__APPINFO__.host+"/home/auth/get_token?"
+                 + "&openid=" + openid
+                 + "&ticket=" + ticket;
+      let data={
+        openid:openid,
+        ticket:ticket
+      };
+      AjaxGetObj(this,appUrl,data,(res)=>{
+        console.log('userToken -> 返回值 : ', res );
+        Cache.cookie.set('access_token',res.data.result.access_token,365);
       });
-    },
-    getWeiXinCode(){ // 用户同意授权，获取code
-      let wxUrl='https://open.weixin.qq.com/connect/oauth2/authorize?'
-                  +'appid='+this.wxInfo.appid
-                  +'&redirect_uri='+ Common.url.encode(this.wxInfo.redirect_uri)
-                  +'&response_type='+ this.wxInfo.response_type
-                  +'&scope='+ this.wxInfo.scope
-                  +'&state='+ this.wxInfo.state
-                  +'#wechat_redirect';
-      console.log("wxUrl: ",wxUrl);
-      window.location.href = wxUrl;
-    },
+    }
 
   }
 }
