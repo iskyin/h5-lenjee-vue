@@ -111,6 +111,11 @@
 </template>
 
 <script type="text/babel">
+// 请求
+import {  AjaxGet , AjaxPost } from '@/service/ajax.js';
+// 注册 js-sdk
+import { RegistJsSdk } from '@/service/wechat_jssdk.js';
+
 export default {
   name: 'Skyin-Search',
   data () {
@@ -123,9 +128,15 @@ export default {
       radio: '1',
     }
   },
+  activated(){
+    this.initPage();
+  },
   methods: {
+    initPage(){
+      // 注册 js-sdk
+      RegistJsSdk(this);
+    },
     getLoaction(){
-
       console.log("********** 使用微信内置地图查看位置接口 **********")
       window.wx.openLocation({
         latitude: 0, // 纬度，浮点数，范围为90 ~ -90

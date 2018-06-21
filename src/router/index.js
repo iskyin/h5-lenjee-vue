@@ -5,7 +5,7 @@ Vue.use(Router)
 import RouterArr from "./src/rootArr"
 
 const RouterObj= new Router({
-  // mode: 'history',
+  mode: 'history',
   routes: RouterArr.routes
 })
 
@@ -16,7 +16,7 @@ const RouterObj= new Router({
  * @param {next}[Route路由对象] 一定要调用该方法来 resolve 这个钩子
  */
 RouterObj.beforeEach((to,from,next)=>{
-  console.log('router beforeEach  to: ',to," from: ",from );
+  // console.log('router beforeEach  to: ',to," from: ",from );
 
   /**
    *  next() 进行管道中的下一个钩子
@@ -37,7 +37,7 @@ RouterObj.beforeEach((to,from,next)=>{
  * 代表已经确定好了导航怎么去执行后，附带的一个执行钩子函数
  */
 RouterObj.afterEach((to, from) => {
-  console.log('router afterEach  to: ',to," from: ",from );
+  // console.log('router afterEach  to: ',to," from: ",from );
 
 });
 

@@ -15,19 +15,42 @@
       举报查询
     </div>
   </div>
-</template> 举报查询
+</template>
 
 <script type="text/babel">
+// get 请求
+import {  AjaxGet, AjaxPost } from '@/service/ajax.js';
 export default {
   name: 'Skyin-Search',
   data () {
     return {
-      searchPhoneNum:''
+      searchPhoneNum:'',
     }
   },
   methods: {
     toSearch(){
+      let self=this;
       console.log("---> ",this.searchPhoneNum);
+
+      let appUrl=window.__APPINFO__.host+"/home/cms/get_list";
+
+      let data={
+        "openid":"xx",
+      	"phone":this.searchPhoneNum,
+      	"ticket":"test_openidxxx"
+      };
+
+      AjaxPost(self,appUrl,data,(res)=>{
+        console.log('toSearch -> 返回值 : ', res );
+        self.searchPhoneNum = res.data.msg;
+
+        if(res.data.code==0){
+
+        }
+      });
+
+
+
     }
   }
 }
