@@ -1,6 +1,13 @@
 <template>
   <div class="gklg">
-    <img src="@/assets/img/sense.jpeg" alt="">
+    <img src="@/assets/img/ss1.jpg" alt="">
+    <img src="@/assets/img/ss2.jpg" alt="">
+    <img src="@/assets/img/ss3.jpg" alt="">
+    <img src="@/assets/img/ss4.jpg" alt="">
+    <img src="@/assets/img/ss5.jpg" alt="">
+    <img src="@/assets/img/ss6.jpg" alt="">
+    <img src="@/assets/img/ss7.jpg" alt="">
+    <img src="@/assets/img/ss8.jpg" alt="">
   </div>
 </template>
 
