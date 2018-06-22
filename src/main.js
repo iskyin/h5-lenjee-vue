@@ -23,6 +23,14 @@ import {Radio, RadioGroup} from 'vue-ydui/dist/lib.rem/radio';
 Vue.component(Radio.name, Radio);
 Vue.component(RadioGroup.name, RadioGroup);
 
+// 高德地图
+import AMap from 'vue-amap'
+Vue.use(AMap)
+AMap.initAMapApiLoader({
+  key: '2dc89cc4f800f4462995acaab73d0862',
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
+})
+
 // Ajax请求
 import axios from 'axios';
 axios.defaults.withCredentials=true;//让ajax携带cookie

@@ -25,6 +25,11 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  externals: {
+   'AMap': 'AMap', // 高德地图
+   'AMapUI': 'AMapUI' // 高德地图 UI
+
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
