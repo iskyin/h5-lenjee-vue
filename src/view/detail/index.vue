@@ -135,7 +135,7 @@ export default {
       video:[], // 视频地址
     }
   },
-  mounted(){
+  activated(){
     this.initPage();
   },
   methods: {
@@ -157,13 +157,14 @@ export default {
       console.log("获取地理位置");
       console.log("*********************************");
       let self=this;
+      // self.getLoaction('116.397428','39.90923');
       window.wx.ready(function () {
 
           // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
           window.wx.checkJsApi({
             jsApiList: [
               'getNetworkType',
-              'previewImage' 
+              'previewImage'
             ],
             success: function (res) {
               console.log('***** 判断当前版本是否支持指定 JS 接口，支持批量判断 *****');
@@ -176,26 +177,8 @@ export default {
                   console.log('***** 获取当前地理位置 *****');
                   console.log(res);
                   let _res =JSON.stringify(res)
+                  // 初始化高德地图
                   self.getLoaction(_res.longitude,_res.latitude);
-                  // 7.1 查看地理位置
-                  // wx.openLocation(res);
-                  // let _res =JSON.stringify(res)
-                  // console.log('***** 获取当前地理位置 *****');
-                  // console.log(_res);
-                  // console.log(_res.latitude); // 纬度，浮点数，范围为90 ~ -90
-                  // console.log(_res.longitude); // 经度，浮点数，范围为180 ~ -180。
-                  // console.log(_res.speed); // 速度，以米/每秒计
-                  // console.log(_res.accuracy); // 位置精度
-                  // // 7.1 查看地理位置
-                  // window.wx.openLocation({
-                  //   latitude: _res.latitude, // 纬度，浮点数，范围为90 ~ -90
-                  //   longitude: _res.longitude,  // 经度，浮点数，范围为180 ~ -180。
-                  //   name: '', // 位置名
-                  //   address: '', // 地址详情说明
-                  //   scale: 14, // 地图缩放级别,整形值,范围从1~28。默认为最大
-                  //   infoUrl: 'http://weixin.qq.com' // 在查看位置界面底部显示的超链接,可点击跳转
-                  // });
-
                 },
                 cancel: function (res) {
                   self.getLoaction('116.397428','39.90923');
@@ -210,6 +193,7 @@ export default {
       window.wx.error(function (res) {
         console.log('***** JS-SDK 注册失败 *****');
         console.log(res);
+        self.getLoaction('116.397428','39.90923');
       });
 
     },
@@ -444,9 +428,8 @@ export default {
 
     },
     getLoaction(ck_Lng,ck_Lat){
-      console.log("---------------------------");
-      console.log("初始化 高德地图");
-      console.log("---------------------------");
+      console.log("#####################");
+      console.log("初始化 高德地图 ck_Lng: ",ck_Lng," ck_Lat: ",ck_Lng);
 
       let self=this;
 
@@ -524,14 +507,14 @@ export default {
         map.addControl(geolocation);
         geolocation.getCurrentPosition()
         AMap.event.addListener(geolocation, 'complete', (result) => {
-          //  返回定位信息
-          self.map.setCenter(result.position);
-          console.log('经纬度：',result.position);
-          console.log('精度范围：',result.accuracy);
-          console.log('定位结果的来源：'+result.location_type);
-          console.log('状态信息：',result.info);
-          console.log('地址：',result.formattedAddress);
-          console.log('地址信息：',JSON.stringify(result.addressComponent, null, 4));
+          // //  返回定位信息
+          // self.map.setCenter(result.position);
+          // console.log('经纬度：',result.position);
+          // console.log('精度范围：',result.accuracy);
+          // console.log('定位结果的来源：'+result.location_type);
+          // console.log('状态信息：',result.info);
+          // console.log('地址：',result.formattedAddress);
+          // console.log('地址信息：',JSON.stringify(result.addressComponent, null, 4));
           self.wx_addr=result.formattedAddress;
         });
         AMap.event.addListener(geolocation, 'error', (result) => {
@@ -541,14 +524,8 @@ export default {
         });
       });
 
-    },
-    TestFun(){
+    }
 
-      console.log("---------------------------");
-      console.log("TestFun");
-      console.log("---------------------------");
-
-    },
   }
 }
 </script>
