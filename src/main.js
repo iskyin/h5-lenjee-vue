@@ -22,6 +22,17 @@ Vue.component(Input.name, Input);
 import {Radio, RadioGroup} from 'vue-ydui/dist/lib.rem/radio';
 Vue.component(Radio.name, Radio);
 Vue.component(RadioGroup.name, RadioGroup);
+// 弹框
+import { Confirm, Alert, Toast, Notify, Loading } from 'vue-ydui/dist/lib.rem/dialog';
+Vue.prototype.$dialog = {
+    confirm: Confirm,
+    alert: Alert,
+    toast: Toast,
+    notify: Notify,
+    loading: Loading,
+};
+
+
 
 // 高德地图
 import AMap from 'vue-amap'

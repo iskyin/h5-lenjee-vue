@@ -49,7 +49,11 @@ export default {
   methods: {
     toSearch(){
       if(this.searchPhoneNum==""){
-        this.searchPhoneNum='请输入手机号';
+        this.$dialog.toast({
+            mes: '请输入手机号',
+            timeout: 1500,
+            icon: 'error',
+        });
         return;
       }
 
@@ -69,7 +73,6 @@ export default {
 
       AjaxPostJson(self,appUrl,data,(res)=>{
         console.log('toSearch -> 返回值 : ', res );
-        self.searchPhoneNum = res.data.msg;
 
         if(res.data.code==0){
           self.showList=true;

@@ -368,7 +368,6 @@ export default {
 
                         })
 
-
                         if (i < length) {
                           upload();
                         }
@@ -394,17 +393,51 @@ export default {
         console.log(res);
       });
     },
+    dataValidation(){
+      let rtn={
+        code:true,
+        msg:'成功'
+      }
+      if(this.content==""){
+        rtn.code=false;
+        rtn.msg = '举报内容不能为空';
+        return rtn ;
+      }
+      if(this.wx_addr=="获取地理信息失败"||this.wx_addr=="点击选择" ){
+        rtn.code=false;
+        rtn.msg = '请选择地理位置';
+        return rtn ;
+      }
+      if(this.img.length==0){
+        rtn.code=false;
+        rtn.msg = '请上传图片';
+        return rtn ;
+      }
+      if(this.phone==""){
+        rtn.code=false;
+        rtn.msg = '手机号不能为空';
+        return rtn ;
+      }
+      return rtn;
+    },
     submit(){
       console.log("--------- 提交数据 ----------");
       let self=this;
-      if(this.phone==""){
-        console.log('------ 手机号不能为空 ------ ')
+      let isDataOk=self.dataValidation();
+
+      if(!isDataOk.code){
+        self.$dialog.toast({
+            mes: isDataOk.msg,
+            timeout: 1500,
+            icon: 'error'
+        });
         return;
       }
+
       let ck_ticket=Cache.cookie.get("ticket");
       let ck_openid=Cache.cookie.get("openid");
       let cname=self.$route.query.el;
-      let data={
+      let _data={
         img_list:this.img.join("|"), // 图片地址 数组最多四张
         desc:this.content,// 举报内容
       	"video_list":this.video.join("|"), // 视频地址
@@ -419,11 +452,19 @@ export default {
 
       let url=window.__APPINFO__.host+"/home/cms/add";
       // 上传到服务器
-      AjaxPostJson(self,url,data,(res)=>{
-        console.log('上传到服务器 -> 返回值 : ', res );
+      AjaxPostJson(self,url,_data,(res)=>{
+        console.log('表单提交  -> 返回值 : ', res );
+
         if(res.data.code==0){
           self.$router.push("/sucess");
+        }else{
+          self.$dialog.confirm({
+            mes: res.data.msg ,
+            timeout: 1500,
+            icon: 'success'
+          });
         }
+
       });
 
     },

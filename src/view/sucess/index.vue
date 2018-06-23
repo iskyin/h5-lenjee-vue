@@ -1,5 +1,8 @@
 <template>
   <div class="sucess">
+    <div @click='goback()' class="goback">
+      返回主页
+    </div>
     <img src="@/assets/img/sucess.jpg" alt="">
   </div>
 </template>
@@ -13,7 +16,9 @@ export default {
     }
   },
   methods: {
-
+    goback(){
+      this.$router.push("/select");
+    }
   }
 }
 </script>
