@@ -5,12 +5,14 @@ import  List from "@/view/list/index.vue";
 import  Search from "@/view/search/index.vue";
 import  Sucess from "@/view/sucess/index.vue";
 import  NoData from "@/view/nodata/index.vue";
-import  Gklg from "@/view/general-knowledge/index.vue";
+import  Gklg from "@/view/general_knowledge/index.vue";
+import  MyList from "@/view/my_list/index.vue";
+
 
 const RouterArr= [
       {
           path: '/',
-          name: 'guide', // 引导页
+          name: 'Guide', // 引导页
           component: Guide,
       },
       // {
@@ -20,27 +22,32 @@ const RouterArr= [
       // },
       {
           path: '/gklg',
-          name: 'gklg', // 常识
+          name: 'Gklg', // 常识
           component: Gklg
       },
       {
+          path: '/mylist',
+          name: 'MyList', // 用户举报列表
+          component: MyList
+      },
+      {
           path: '/select',
-          name: 'select', // 选择大项
+          name: 'Select', // 选择大项
           component: resolve=>require(['@/view/select/index.vue'],resolve) // 懒加载
       },
       {
           path: '/list',
-          name: 'list', // 列表
+          name: 'List', // 列表
           component:List
       },
       {
           path: '/detail',
-          name: 'detail', // 举报详情
+          name: 'Detail', // 举报详情
           component: resolve=>require(['@/view/detail/index.vue'],resolve) // 懒加载
       },
       {
           path: '/search',
-          name: 'search', // 查询
+          name: 'Search', // 查询
           component: Search
       },
       {
@@ -50,7 +57,7 @@ const RouterArr= [
       },
       {
           path: '/nodata',
-          name: 'nodata', // 无数据
+          name: 'NoData', // 无数据
           component: NoData
       }
   ]

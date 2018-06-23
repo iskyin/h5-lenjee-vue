@@ -14,9 +14,7 @@
     <div @click="toSearch" class="btn">
       举报查询
     </div>
-    <div class="" v-for='item in list' v-show='showList'>
-      {{item.id}}:  {{item.created}}
-    </div>
+
   </div>
 </template>
 
@@ -30,20 +28,6 @@ export default {
   data () {
     return {
       searchPhoneNum:'',
-      list:[
-        {
-          "id": "1",
-          "openid": "xx",
-          "multi_media": "aaa.png|bbbb.mp4",
-          "wx_addr": "深圳市福田区",
-          "user_addr": "福荣路21号",
-          "sex": "1",
-          "phone": "133168255xx",
-          "cid": "1",
-          "created": "0000-00-00 00:00:00"
-        }
-      ],
-      showList:false,
     }
   },
   methods: {
@@ -75,10 +59,11 @@ export default {
         console.log('toSearch -> 返回值 : ', res );
 
         if(res.data.code==0){
-          self.showList=true;
-          self.list=res.data.result.list;
-          if(self.list.length==0){
+          if(res.data.result.list.length==0){
             self.$router.push("/nodata");
+          }else{
+            Cache.localStorage.set('myList',JSON.stringify(res.data.result.list));
+            self.$router.push('/mylist');
           }
         }
 

@@ -41,8 +41,8 @@
         </div>
       </div>
       <div class="frm-list-img">
-        <div @click="openCamera()" class="frm-list-img-l">
-          <img src="@/assets/img/photo.png" alt="">
+        <div class="frm-list-img-l">
+          <input type="file" @change="uploadFile('img')" class="input_file" ref="imgFile" name="" value="">
         </div>
 
         <div class="frm-list-img-l" v-for='item in img'>
@@ -62,8 +62,8 @@
         </div>
       </div>
       <div class="frm-list-img">
-        <div @click="openMedia()" class="frm-list-img-l">
-          <img src="@/assets/img/recording.png" alt="">
+        <div class="frm-list-img-v">
+          <input type="file" @change="uploadFile('video')" class="input_file" ref="videoFile" name="" value="">
         </div>
 
         <div class="frm-list-img-l" v-for='item in video'>
@@ -97,14 +97,6 @@
     </div>
 
     <div @click="submit()" class="frm-btn">
-      提交线索
-    </div>
-
-    <div class="frm-btn">
-      <input type="file" name="" value="">
-    </div>
-
-    <div @click="TextAjax()" class="frm-btn">
       提交线索
     </div>
 
@@ -149,8 +141,8 @@ export default {
   methods: {
     initPage(){
       // 注册 js-sdk
-      let lcUrl=window.location.href;
-      RegistJsSdk(this,lcUrl);
+      // let lcUrl=window.location.href;
+      // RegistJsSdk(this,lcUrl);
       this.initAmap();
       // this.TestFun();
     },
@@ -585,18 +577,35 @@ export default {
 
 
     },
-    TextAjax(){
-      console.log('TextAjax --> ')
+    uploadFile(e){
+      console.log('### uploadFile --> : ',e)
+      let self=this , useFile;
       let ck_ticket=Cache.cookie.get("ticket");
       let ck_openid=Cache.cookie.get("openid");
-      let localData='xxx.jpg'
-      let self=this;
+
+      if(e=='img'){
+        if(self.img.length>=4){
+          self.$dialog.alert({mes: '最多上传四张'});
+          return;
+        }
+        useFile=self.$refs.imgFile.files[0];
+      }
+
+      if(e=='video'){
+        if(self.video.length>=1){
+          self.$dialog.alert({mes: '最多上传一个视频'});
+          return;
+        }
+        useFile=self.$refs.videoFile.files[0];
+      }
+
+      console.log('input.file.files : ',useFile)
 
       let url=window.__APPINFO__.host+"/home/tool/upload";
 
       let formdata = new FormData();
-      formdata.append('file',localData); // 图片或者视频的字段
-      formdata.append('path',"vedio"); // 存储的路由; 图片上传时，path = img ; 视频上传时，path = vedio;
+      formdata.append('file',useFile); // 图片或者视频的字段
+      formdata.append('path',e); // 存储的路由; 图片上传时，path = img ; 视频上传时，path = vedio;
       formdata.append('ticket',ck_ticket);
       formdata.append('openid',ck_openid);
 
@@ -604,10 +613,18 @@ export default {
       AjaxPostForm(self,url,formdata,(res)=>{
         console.log('上传到服务器 -> 返回值 : ', res );
         if(res.data.code == 0 ){
-          console.log('已上传：' + i + '/' + length);
-          self.img.push(res.data.result.url);
+
+          let addImgUrl=window.__APPINFO__.host+res.data.result.url;
+          if(e=='img'){
+            self.img.push(addImgUrl);
+          }
+          if(e=='video'){
+            self.video.push(addImgUrl);
+          }
+          console.log("***** img: ", self.img );
+          console.log("***** video: ",self.video );
+
         }else{
-          console.log('第：' + i + '/' + length+'上传失败');
           self.$dialog.toast({
               mes:'上传失败',
               timeout: 1500,
