@@ -5,7 +5,7 @@ export function RegistJsSdk(_this,lcUrl){ // 注册 JS-SDK
   console.log("********** 注册 JS-SDK **********")
   let self=_this;
   // let appUrl=window.__APPINFO__.host+"/home/auth/get_sign?url="+window.location.href;
-  let signUrl='http://wxapi.hgfdcscxx.com/home/auth/get_sign?'
+  let signUrl=window.__APPINFO__.host+'/home/auth/get_sign?'
   +"url="+lcUrl;
   console.log("registJsSdk -> ",signUrl);
 

@@ -152,51 +152,51 @@ export default {
     showMap(){
       this.isShowMap=true;
     },
-    initAmap(){
-      console.log("*********************************");
-      console.log("获取地理位置");
-      console.log("*********************************");
-      let self=this;
-      // self.getLoaction('116.397428','39.90923');
-      window.wx.ready(function () {
-
-          // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
-          window.wx.checkJsApi({
-            jsApiList: [
-              'getNetworkType',
-              'previewImage'
-            ],
-            success: function (res) {
-              console.log('***** 判断当前版本是否支持指定 JS 接口，支持批量判断 *****');
-              console.log(JSON.stringify(res));
-
-              // 7.2 获取当前地理位置
-              window.wx.getLocation({
-                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                success: function (res) {
-                  console.log('***** 获取当前地理位置 *****');
-                  console.log(res);
-                  let _res =JSON.stringify(res)
-                  // 初始化高德地图
-                  self.getLoaction(_res.longitude,_res.latitude);
-                },
-                cancel: function (res) {
-                  self.getLoaction('116.397428','39.90923');
-                  alert('用户拒绝授权获取地理位置');
-                }
-              });
-
-            }
-          });
-
-      });
-      window.wx.error(function (res) {
-        console.log('***** JS-SDK 注册失败 *****');
-        console.log(res);
-        self.getLoaction('116.397428','39.90923');
-      });
-
-    },
+    // initAmap(){
+    //   console.log("*********************************");
+    //   console.log("获取地理位置");
+    //   console.log("*********************************");
+    //   let self=this;
+    //   // self.getLoaction('116.397428','39.90923');
+    //   window.wx.ready(function () {
+    //
+    //       // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+    //       window.wx.checkJsApi({
+    //         jsApiList: [
+    //           'getNetworkType',
+    //           'previewImage'
+    //         ],
+    //         success: function (res) {
+    //           console.log('***** 判断当前版本是否支持指定 JS 接口，支持批量判断 *****');
+    //           console.log(JSON.stringify(res));
+    //
+    //           // 7.2 获取当前地理位置
+    //           window.wx.getLocation({
+    //             type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+    //             success: function (res) {
+    //               console.log('***** 获取当前地理位置 *****');
+    //               console.log(res);
+    //               let _res =JSON.stringify(res)
+    //               // 初始化高德地图
+    //               self.getLoaction(_res.longitude,_res.latitude);
+    //             },
+    //             cancel: function (res) {
+    //               self.getLoaction('116.397428','39.90923');
+    //               alert('用户拒绝授权获取地理位置');
+    //             }
+    //           });
+    //
+    //         }
+    //       });
+    //
+    //   });
+    //   window.wx.error(function (res) {
+    //     console.log('***** JS-SDK 注册失败 *****');
+    //     console.log(res);
+    //     self.getLoaction('116.397428','39.90923');
+    //   });
+    //
+    // },
     openCamera(){
       console.log("*********************************");
       console.log("获取图片");
@@ -427,9 +427,10 @@ export default {
       });
 
     },
-    getLoaction(ck_Lng,ck_Lat){
+    initAmap(){
       console.log("#####################");
-      console.log("初始化 高德地图 ck_Lng: ",ck_Lng," ck_Lat: ",ck_Lng);
+      console.log("初始化 高德地图  ");
+      let ck_Lng,ck_Lat;
 
       let self=this;
 
@@ -437,9 +438,45 @@ export default {
       map = new AMap.Map('container', {
         resizeEnable: true,
         zoom:15,//级别
-        center: [ck_Lng, ck_Lat],//中心点坐标
+        // center: [ck_Lng, ck_Lat],//中心点坐标
         viewMode:'3D'//使用3D视图
       });
+
+      // 获取当前地址
+      map.plugin(['AMap.Geolocation'], ()=> {
+        let geolocation = new AMap.Geolocation({
+          enableHighAccuracy: true, //  是否使用高精度定位，默认:true
+          timeout: 10000, //  超过10秒后停止定位，默认：无穷大
+          maximumAge: 0, // 定位结果缓存0毫秒，默认：0
+          convert: true, // 自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+          showButton: true, //  显示定位按钮，默认：true
+          buttonPosition: 'LB',  // 定位按钮停靠位置，默认：'LB'，左下角
+          buttonOffset: new AMap.Pixel(10, 20), //  定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+          showMarker: true, //  定位成功后在定位到的位置显示点标记，默认：true
+          showCircle: true, //  定位成功后用圆圈表示定位精度范围，默认：true
+          panToLocation: true,  //  定位成功后将定位到的位置作为地图中心点，默认：true
+          zoomToAccuracy: true  //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+        })
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition()
+        AMap.event.addListener(geolocation, 'complete', (result) => {
+          // //  返回定位信息
+          // self.map.setCenter(result.position);
+          // console.log('经纬度：',result.position);
+          // console.log('精度范围：',result.accuracy);
+          // console.log('定位结果的来源：'+result.location_type);
+          // console.log('状态信息：',result.info);
+          // console.log('地址：',result.formattedAddress);
+          // console.log('地址信息：',JSON.stringify(result.addressComponent, null, 4));
+          self.wx_addr=result.formattedAddress;
+        });
+        AMap.event.addListener(geolocation, 'error', (result) => {
+          //  返回定位出错信息
+          self.wx_addr = '获取地理信息失败';
+          console.log("返回定位出错信息 -> : ",result)
+        });
+      });
+
 
       let marker = new AMap.Marker({
         // position:[116.397428, 39.90923]//位置
@@ -487,40 +524,6 @@ export default {
         map.addControl(new AMap.MapType({showTraffic: false, showRoad: false}))
       });
 
-      // 获取当前地址
-      map.plugin(['AMap.Geolocation'], ()=> {
-        let geolocation = new AMap.Geolocation({
-          enableHighAccuracy: true, //  是否使用高精度定位，默认:true
-          timeout: 10000, //  超过10秒后停止定位，默认：无穷大
-          maximumAge: 0, // 定位结果缓存0毫秒，默认：0
-          convert: true, // 自动偏移坐标，偏移后的坐标为高德坐标，默认：true
-          showButton: true, //  显示定位按钮，默认：true
-          buttonPosition: 'LB',  // 定位按钮停靠位置，默认：'LB'，左下角
-          buttonOffset: new AMap.Pixel(10, 20), //  定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-          showMarker: true, //  定位成功后在定位到的位置显示点标记，默认：true
-          showCircle: true, //  定位成功后用圆圈表示定位精度范围，默认：true
-          panToLocation: true,  //  定位成功后将定位到的位置作为地图中心点，默认：true
-          zoomToAccuracy: true  //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-        })
-        map.addControl(geolocation);
-        geolocation.getCurrentPosition()
-        AMap.event.addListener(geolocation, 'complete', (result) => {
-          // //  返回定位信息
-          // self.map.setCenter(result.position);
-          // console.log('经纬度：',result.position);
-          // console.log('精度范围：',result.accuracy);
-          // console.log('定位结果的来源：'+result.location_type);
-          // console.log('状态信息：',result.info);
-          // console.log('地址：',result.formattedAddress);
-          // console.log('地址信息：',JSON.stringify(result.addressComponent, null, 4));
-          self.wx_addr=result.formattedAddress;
-        });
-        AMap.event.addListener(geolocation, 'error', (result) => {
-          //  返回定位出错信息
-          self.wx_addr = '获取地理信息失败';
-          console.log("返回定位出错信息 -> : ",result)
-        });
-      });
 
     }
 

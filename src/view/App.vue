@@ -9,7 +9,7 @@
 // 初始化 公共配置
 import initAppInfo from '@/config/app';
 new initAppInfo({
-  serverName:'dev', // 开发环境
+  serverName:'prod', // 接口环境
   version:'00.00.0001', // 版本信息
   docWidth:750, // 设计图宽度
 });
