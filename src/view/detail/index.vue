@@ -100,6 +100,14 @@
       提交线索
     </div>
 
+    <div class="frm-btn">
+      <input type="file" name="" value="">
+    </div>
+
+    <div @click="TextAjax()" class="frm-btn">
+      提交线索
+    </div>
+
     <div id="container" v-show="isShowMap">
       <div @click='hideMap()' class="goback">
         <img src="@/assets/img/goback.png" alt=""> <span>确定</span>
@@ -229,7 +237,8 @@ export default {
               };
               window.wx.chooseImage({
                 success: function (res) {
-                  console.log('***** 拍照、本地选图 *****');
+                  console.log('***** 拍照、本地选图 ***** : ',res);
+
                   images.localId = res.localIds;
                   if (images.localId.length > 4) {
                        alert('最多只能选择四张图片');
@@ -258,7 +267,7 @@ export default {
                         formdata.append('openid',ck_openid);
 
                         // 上传到服务器
-                        AjaxPostJson(self,url,formdata,(res)=>{
+                        AjaxPostForm(self,url,formdata,(res)=>{
                           console.log('上传到服务器 -> 返回值 : ', res );
                           if(res.data.code==0){
                             console.log('已上传：' + i + '/' + length);
@@ -266,9 +275,14 @@ export default {
 
                           }else{
                             console.log('第：' + i + '/' + length+'上传失败');
+                            self.$dialog.toast({
+                                mes:'上传失败',
+                                timeout: 1500,
+                                icon: 'error'
+                            });
                           }
 
-                        })
+                        });
 
                         if (i < length) {
                           upload();
@@ -356,14 +370,18 @@ export default {
                         formdata.append('openid',ck_openid);
 
                         // 上传到服务器
-                        AjaxPostJson(self,url,formdata,(res)=>{
+                        AjaxPostForm(self,url,formdata,(res)=>{
                           console.log('上传到服务器 -> 返回值 : ', res );
-                          if(res.data.code==0){
+                          if(res.data.code == 0 ){
                             console.log('已上传：' + i + '/' + length);
                             self.img.push(res.data.result.url);
-
                           }else{
                             console.log('第：' + i + '/' + length+'上传失败');
+                            self.$dialog.toast({
+                                mes:'上传失败',
+                                timeout: 1500,
+                                icon: 'error'
+                            });
                           }
 
                         })
@@ -566,8 +584,40 @@ export default {
       });
 
 
-    }
+    },
+    TextAjax(){
+      console.log('TextAjax --> ')
+      let ck_ticket=Cache.cookie.get("ticket");
+      let ck_openid=Cache.cookie.get("openid");
+      let localData='xxx.jpg'
+      let self=this;
 
+      let url=window.__APPINFO__.host+"/home/tool/upload";
+
+      let formdata = new FormData();
+      formdata.append('file',localData); // 图片或者视频的字段
+      formdata.append('path',"vedio"); // 存储的路由; 图片上传时，path = img ; 视频上传时，path = vedio;
+      formdata.append('ticket',ck_ticket);
+      formdata.append('openid',ck_openid);
+
+      // 上传到服务器
+      AjaxPostForm(self,url,formdata,(res)=>{
+        console.log('上传到服务器 -> 返回值 : ', res );
+        if(res.data.code == 0 ){
+          console.log('已上传：' + i + '/' + length);
+          self.img.push(res.data.result.url);
+        }else{
+          console.log('第：' + i + '/' + length+'上传失败');
+          self.$dialog.toast({
+              mes:'上传失败',
+              timeout: 1500,
+              icon: 'error'
+          });
+        }
+
+      });
+
+    },
   }
 }
 </script>
