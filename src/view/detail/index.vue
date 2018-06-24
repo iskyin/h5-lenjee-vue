@@ -100,9 +100,18 @@
       提交线索
     </div>
 
-    <div id="container" v-show="isShowMap">
+
+
+    <div  v-show="isShowMap" id="outer-box">
       <div @click='hideMap()' class="goback">
         <img src="@/assets/img/goback.png" alt=""> <span>确定</span>
+      </div>
+      <div id="container"></div>
+      <div id="panel" class="scrollbar1">
+          <div id="searchBar">
+              <input id="searchInput" placeholder="输入关键字搜素POI" />
+          </div>
+          <div id="searchResults"></div>
       </div>
     </div>
 
@@ -120,7 +129,7 @@ import AMapUI from 'AMapUI';
 
 // 缓存
 import Cache from '@/util/cache';
-let map;
+
 export default {
   name: 'Skyin-Search',
   data () {
@@ -481,23 +490,23 @@ export default {
     initAmap(){
       console.log("#####################");
       console.log("初始化 高德地图  ");
-      let ck_Lng,ck_Lat;
+      console.log("******** 由于Chrome、IOS10等已不再支持非安全域的浏览器定位请求，为保证定位成功率和精度，请尽快升级您的站点到HTTPS。******");
 
+      let map,geolocation,marker,map_key="";
+      let ck_Lng,ck_Lat;
       let self=this;
 
       // 初始定位
       map = new AMap.Map('container', {
         resizeEnable: true,
-        zoom:15,//级别
-        // center: [ck_Lng, ck_Lat],//中心点坐标
-        viewMode:'3D'//使用3D视图
+        zoom:16,//级别
       });
 
       // 获取当前地址
       map.plugin(['AMap.Geolocation'], ()=> {
-        let geolocation = new AMap.Geolocation({
+        geolocation = new AMap.Geolocation({
           enableHighAccuracy: true, //  是否使用高精度定位，默认:true
-          timeout: 10000, //  超过10秒后停止定位，默认：无穷大
+          timeout: 5000, //  超过5秒后停止定位，默认：无穷大
           maximumAge: 0, // 定位结果缓存0毫秒，默认：0
           convert: true, // 自动偏移坐标，偏移后的坐标为高德坐标，默认：true
           showButton: true, //  显示定位按钮，默认：true
@@ -528,18 +537,14 @@ export default {
         });
       });
 
-
-      let marker = new AMap.Marker({
-        // position:[116.397428, 39.90923]//位置
-      })
-
+      // 标记
+      marker = new AMap.Marker()
       map.add(marker);//添加到地图
 
       // 为地图添加点击事件并标记
       map.on('click', (e)=> {
         ck_Lng=e.lnglat.getLng();
         ck_Lat=e.lnglat.getLat();
-
         // 移除已创建的 marker
         map.remove(marker);
         // 创建新的标记
@@ -547,7 +552,6 @@ export default {
           position:[ck_Lng,ck_Lat]//位置
         })
         map.add(marker);
-
         AMap.service('AMap.Geocoder',()=>{//回调函数
              //实例化Geocoder
              let geocoder = new AMap.Geocoder({
@@ -556,17 +560,49 @@ export default {
              });
              let lnglatXY=[ck_Lng, ck_Lat];//地图上所标点的坐标
              geocoder.getAddress(lnglatXY, function(status, result) {
-                 if (status === 'complete' && result.info === 'OK') {
-                     self.wx_addr = result.regeocode.formattedAddress;
-                     console.log("地址结果：",result.regeocode.formattedAddress);
-                 }else{
-                     self.wx_addr = '获取地理信息失败';
-                     //获取地址失败
-                     console.log("地址结果：",addrDetail);
-                 }
+               console.log("地址结果： status: ",status ," result: ",result);
+               if (status === 'complete' && result.info === 'OK') {
+                   map_key = result.regeocode.formattedAddress;
+                   self.wx_addr = result.regeocode.formattedAddress;
 
+                   // 数据条目
+                   AMapUI.loadUI(['misc/PoiPicker'], function(PoiPicker) {
+                     let poiPicker = new PoiPicker({
+                        input: 'searchInput',
+                        placeSearchOptions: {
+                            map: map,
+                            pageSize:4
+                        },
+                        searchResultsContainer: 'searchResults'
+                     });
+
+                     poiPicker.on('poiPicked', function(poiResult) {
+                        poiPicker.hideSearchResults();
+                        let source = poiResult.source,
+                            poi = poiResult.item;
+                        if (source !== 'search') {
+                          //suggest来源的，同样调用搜索
+                          poiPicker.searchByKeyword(poi.name);
+                        } else {
+                          let poi_wx_addr = result.regeocode.formattedAddress+"-"+poi.name;
+                          console.log("poi: ",poi_wx_addr);
+                          self.wx_addr =poi_wx_addr;
+                        }
+                     });
+
+                     poiPicker.onCityReady(function() {
+                        poiPicker.searchByKeyword(map_key);
+                     });
+
+                   });
+
+
+               }else{
+                   self.wx_addr = '获取地理信息失败';
+               }
              });
          });
+
       });
 
       // 插件
@@ -574,6 +610,8 @@ export default {
         map.addControl(new AMap.ToolBar())
         map.addControl(new AMap.MapType({showTraffic: false, showRoad: false}))
       });
+
+
 
 
     },
@@ -613,7 +651,6 @@ export default {
       AjaxPostForm(self,url,formdata,(res)=>{
         console.log('上传到服务器 -> 返回值 : ', res );
         if(res.data.code == 0 ){
-
           let addImgUrl=window.__APPINFO__.host+res.data.result.url;
           if(e=='img'){
             self.img.push(addImgUrl);
@@ -623,7 +660,6 @@ export default {
           }
           console.log("***** img: ", self.img );
           console.log("***** video: ",self.video );
-
         }else{
           self.$dialog.toast({
               mes:'上传失败',
@@ -631,7 +667,6 @@ export default {
               icon: 'error'
           });
         }
-
       });
 
     },
