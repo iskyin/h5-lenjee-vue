@@ -1,7 +1,7 @@
 // get 请求
 import {  AjaxGet } from '@/service/ajax.js';
 // 注册 js-sdk
-export function RegistJsSdk(_this,lcUrl){ // 注册 JS-SDK
+export function RegistJsSdk(_this,lcUrl,calllback){ // 注册 JS-SDK
   console.log("********** 注册 JS-SDK **********")
   let self=_this;
   // let appUrl=window.__APPINFO__.host+"/home/auth/get_sign?url="+window.location.href;
@@ -11,9 +11,7 @@ export function RegistJsSdk(_this,lcUrl){ // 注册 JS-SDK
 
   AjaxGet(self,signUrl,(res)=>{
     console.log('getWxGign -> 返回值 : ', res );
-
     if(res.data.code==0){
-
         window.wx.config({
             debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
             appId: res.data.result.appId, // 必填，公众号的唯一标识
@@ -59,8 +57,7 @@ export function RegistJsSdk(_this,lcUrl){ // 注册 JS-SDK
               'openCard'
             ] // 必填，需要使用的JS接口列表
         });
-
-
+        calllback();
       }
   });
 }

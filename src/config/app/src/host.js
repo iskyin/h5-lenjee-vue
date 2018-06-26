@@ -15,7 +15,7 @@ export function setHost(hostName){
       hostIP='';
       break;
     case 'prod': // 生产 服务器 地址
-      hostIP='http://wxapi.hgfdcscxx.com';
+      hostIP='http://wxapi.youreasy.cn';
       break;
     default:
       hostIP='http://error';
