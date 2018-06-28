@@ -569,6 +569,7 @@ export default {
 
     },
     setAddr(ck_Lng,ck_Lat){ // 设置地址
+      console.log("设置地址：ck_Lng：",ck_Lng," ck_Lat:",ck_Lat);
 
       let map_key="";
       // 移除已创建的 marker
