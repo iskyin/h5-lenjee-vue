@@ -32,8 +32,6 @@ Vue.prototype.$dialog = {
     loading: Loading,
 };
 
-
-
 // 高德地图
 import AMap from 'vue-amap'
 Vue.use(AMap)
@@ -46,6 +44,16 @@ AMap.initAMapApiLoader({
 import axios from 'axios';
 axios.defaults.withCredentials=true;//让ajax携带cookie
 Vue.prototype.$ajax = axios;
+
+// 处理iphone点击事件
+document.addEventListener('DOMContentLoaded', function() {
+    typeof FastClick == 'function' && FastClick.attach(document.body);
+}, false);
+
+window.document.addEventListener('touchstart', function(event) {
+    /* Do Nothing */
+}, false);
+
 
 Vue.config.productionTip = false
 
