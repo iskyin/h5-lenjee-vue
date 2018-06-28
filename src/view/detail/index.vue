@@ -191,9 +191,10 @@ export default {
                 success: function (res) {
                   console.log('***** 微信 获取当前地理位置 *****');
                   console.log(res);
-                  let _res =JSON.stringify(res)
+                  let longitude=res.longitude;
+                  let latitude=res.latitude;
                   // 初始化高德地图
-                  _this.setAddr(_res.longitude,_res.latitude);
+                  _this.setAddr(longitude,latitude);
                 },
                 cancel: function (res) {
                   _this.getLoaction('116.397428','39.90923');
