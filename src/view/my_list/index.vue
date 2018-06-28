@@ -57,7 +57,7 @@
 // 缓存
 import Cache from '@/util/cache';
 export default {
-  name: 'Skyin-NoData',
+  name: 'Skyin-myList',
   data () {
     return {
       list:[

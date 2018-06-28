@@ -39,6 +39,7 @@ export default {
     toReport(el){
       console.log("el: ",el);
       Cache.localStorage.set('type',el);
+      console.log(this.$router);
       this.$router.push('/detail');
     }
   }

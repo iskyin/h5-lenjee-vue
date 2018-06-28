@@ -7,7 +7,8 @@ import  Sucess from "@/view/sucess/index.vue";
 import  NoData from "@/view/nodata/index.vue";
 import  Gklg from "@/view/general_knowledge/index.vue";
 import  MyList from "@/view/my_list/index.vue";
-
+import  Detail from "@/view/detail/index.vue";
+import  Select from "@/view/select/index.vue";
 
 const RouterArr= [
       {
@@ -33,17 +34,17 @@ const RouterArr= [
       {
           path: '/select',
           name: 'Select', // 选择大项
-          component: resolve=>require(['@/view/select/index.vue'],resolve) // 懒加载
+          component: Select
       },
       {
           path: '/list',
-          name: 'List', // 列表
+          name: 'List',
           component:List
       },
       {
           path: '/detail',
           name: 'Detail', // 举报详情
-          component: resolve=>require(['@/view/detail/index.vue'],resolve) // 懒加载
+          component: Detail
       },
       {
           path: '/search',
