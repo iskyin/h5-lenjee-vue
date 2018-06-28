@@ -1,5 +1,5 @@
 /**
- * 设置 接口地址 + 系统版本号
+ * 设置 接口地址
  * @param hostName 接口名称
 **/
 export function setHost(hostName){
@@ -15,7 +15,7 @@ export function setHost(hostName){
       hostIP='';
       break;
     case 'prod': // 生产 服务器 地址
-      hostIP='http://wxapi.youreasy.cn';
+      hostIP='https://zh.chinawegame.com';
       break;
     default:
       hostIP='http://error';
