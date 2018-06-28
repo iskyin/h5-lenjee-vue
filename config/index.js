@@ -8,7 +8,7 @@ module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
     proxyTable: {// 配置代理
       '/api':{ // 凡是'/api'开头的http请求都会被代理到此端口下
         target: 'http://'+server.host+':'+ server.port,
@@ -43,7 +43,7 @@ module.exports = {
     /**
      * Source Maps
      */
-    productionSourceMap: true,
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
     // Gzip off by default as many popular static hosts such as
