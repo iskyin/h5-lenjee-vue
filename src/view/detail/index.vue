@@ -182,30 +182,24 @@ export default {
             ],
             success: function (res) {
               console.log('***** 判断当前版本是否支持指定 JS 接口，支持批量判断 *****');
-
               let wxld=JSON.stringify(res);
-
               console.log(wxld);
 
-              // 设置定位信息
-              _this.setAddr(wxld.longitude,wxld.latitude)
-
-
-              // // 7.2 获取当前地理位置
-              // window.wx.getLocation({
-              //   type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-              //   success: function (res) {
-              //     console.log('***** 获取当前地理位置 *****');
-              //     console.log(res);
-              //     let _res =JSON.stringify(res)
-              //     // 初始化高德地图
-              //     _this.getLoaction(_res.longitude,_res.latitude);
-              //   },
-              //   cancel: function (res) {
-              //     _this.getLoaction('116.397428','39.90923');
-              //     alert('用户拒绝授权获取地理位置');
-              //   }
-              // });
+              // 7.2 获取当前地理位置
+              window.wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                  console.log('***** 微信 获取当前地理位置 *****');
+                  console.log(res);
+                  let _res =JSON.stringify(res)
+                  // 初始化高德地图
+                  _this.setAddr(_res.longitude,_res.latitude);
+                },
+                cancel: function (res) {
+                  _this.getLoaction('116.397428','39.90923');
+                  alert('用户拒绝授权获取地理位置');
+                }
+              });
 
             }
           });
