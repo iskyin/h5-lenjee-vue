@@ -463,7 +463,7 @@ export default {
 
       let ck_ticket=Cache.cookie.get("ticket");
       let ck_openid=Cache.cookie.get("openid");
-      let cname=_this.$route.query.el;
+      let cname=Cache.localStorage.set('type');
       let _data={
         img_list:this.img.join("|"), // 图片地址 数组最多四张
         desc:this.content,// 举报内容
@@ -476,6 +476,7 @@ export default {
         "openid":ck_openid,
       	"ticket":ck_ticket
       }
+      console.log("提交的数据: ",_data);
 
       let url=window.__APPINFO__.host+"/home/cms/add";
       // 上传到服务器

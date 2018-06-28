@@ -2,19 +2,19 @@
   <div class="list">
     <img src="@/assets/img/banner2.jpg" alt="">
     <div class="rp-list">
-        <div @click="toReport('国土资源',$event)" class="rp-el gz">
+        <div @click="toReport('国土资源')" class="rp-el gz">
           <p>国土资源</p>
         </div>
-        <div @click="toReport('环境保护',$event)" class="rp-el hb ">
+        <div @click="toReport('环境保护')" class="rp-el hb ">
           <p>环境保护</p>
         </div>
-        <div @click="toReport('食药安全',$event)" class="rp-el ya">
+        <div @click="toReport('食药安全')" class="rp-el ya">
           <p>食药安全</p>
         </div>
-        <div @click="toReport('国有财产',$event)" class="rp-el gc">
+        <div @click="toReport('国有财产')" class="rp-el gc">
           <p>国有财产</p>
         </div>
-        <div @click="toReport('更多',$event)" class="rp-el gd">
+        <div @click="toReport('更多')" class="rp-el gd">
           <p>更多</p>
         </div>
         <div class="rp-el">
@@ -25,6 +25,9 @@
 </template>
 
 <script type="text/babel">
+// 缓存
+import Cache from '@/util/cache';
+
 export default {
   name: 'Skyin-List',
   data () {
@@ -33,14 +36,10 @@ export default {
     }
   },
   methods: {
-    toReport(el,e){
-      console.log("el: ",el," e: ",e);
-      this.$router.push({
-        path: '/detail',
-        query: {
-          "el":el
-        }
-      });
+    toReport(el){
+      console.log("el: ",el);
+      Cache.localStorage.set('type',el);
+      this.$router.push('/detail');
     }
   }
 }
