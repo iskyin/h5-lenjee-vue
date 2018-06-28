@@ -36,7 +36,7 @@ export default {
     }
   },
   methods: {
-    toReport(el){
+    toReport:function(el){
       console.log("el: ",el);
       Cache.localStorage.set('type',el);
       console.log(this.$router);

@@ -149,7 +149,7 @@ export default {
     this.initPage();
   },
   methods: {
-    initPage(){
+    initPage:function(){
       _this=this;
       // 注册 js-sdk
       let lcUrl=window.location.href;
@@ -160,13 +160,13 @@ export default {
 
       // this.TestFun();
     },
-    hideMap(){ // 隐藏地图
+    hideMap:function(){ // 隐藏地图
       this.isShowMap=false;
     },
-    showMap(){
+    showMap:function(){
       this.isShowMap=true;
     },
-    initWehatMap(){
+    initWehatMap:function(){
       console.log("*********************************");
       console.log("微信 初始化 地理位置");
       console.log("*********************************");
@@ -214,7 +214,7 @@ export default {
       });
 
     },
-    openCamera(){
+    openCamera:function(){
       console.log("*********************************");
       console.log("获取图片");
       console.log("*********************************");
@@ -318,7 +318,7 @@ export default {
         console.log(res);
       });
     },
-    openMedia(){
+    openMedia:function(){
       console.log("*********************************");
       console.log("获取摄像");
       console.log("*********************************");
@@ -420,7 +420,7 @@ export default {
         console.log(res);
       });
     },
-    dataValidation(){
+    dataValidation:function(){
       let rtn={
         code:true,
         msg:'成功'
@@ -447,7 +447,7 @@ export default {
       }
       return rtn;
     },
-    submit(){
+    submit:function(){
       console.log("--------- 提交数据 ----------");
 
       let isDataOk=_this.dataValidation();
@@ -496,7 +496,7 @@ export default {
       });
 
     },
-    initAmap(){
+    initAmap:function(){
       console.log("#####################");
 
       console.log("初始化 高德地图  ");
@@ -570,7 +570,7 @@ export default {
       _this.initWehatMap();
 
     },
-    setAddr(ck_Lng,ck_Lat){ // 设置地址
+    setAddr:function(ck_Lng,ck_Lat){ // 设置地址
       console.log("设置地址：ck_Lng：",ck_Lng," ck_Lat:",ck_Lat);
 
       let map_key="";
@@ -634,7 +634,7 @@ export default {
        });
 
     },
-    uploadFile(e){
+    uploadFile:function(e){
       console.log('### uploadFile --> : ',e)
       let _this=this , useFile;
       let ck_ticket=Cache.cookie.get("ticket");

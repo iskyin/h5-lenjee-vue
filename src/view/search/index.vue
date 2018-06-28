@@ -31,7 +31,7 @@ export default {
     }
   },
   methods: {
-    toSearch(){
+    toSearch:function(){
       if(this.searchPhoneNum==""){
         this.$dialog.toast({
             mes: '请输入手机号',

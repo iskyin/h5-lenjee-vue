@@ -84,7 +84,7 @@ export default {
     this.initPage();
   },
   methods: {
-    initPage(){
+    initPage:function(){
 
       let mylist=Cache.localStorage.get('myList');
       console.log('获取 local ',mylist);
@@ -98,7 +98,7 @@ export default {
       }
 
     },
-    goback(){
+    goback:function(){
       this.$router.push("/select");
     }
   }

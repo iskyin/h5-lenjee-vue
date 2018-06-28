@@ -32,7 +32,7 @@ export default {
     this.initPage();
   },
   methods: {
-    initPage(){
+    initPage:function(){
       let time=Common.time.ymdhms();
       console.log('time --> : ',time);
       // 验证cookie
@@ -43,7 +43,7 @@ export default {
       }
 
     },
-    userCookie(time){ // 验证cookie
+    userCookie:function(time){ // 验证cookie
       let self=this;
       let appUrl=window.__APPINFO__.host+"/home/auth/check_auth_code?code="+time;
 
@@ -63,7 +63,7 @@ export default {
       });
 
     },
-    userToken(openid,ticket){
+    userToken:function(openid,ticket){
       let appUrl=window.__APPINFO__.host+"/home/auth/get_token?"
                  + "&openid=" + openid
                  + "&ticket=" + ticket;

@@ -44,13 +44,13 @@ export default {
     "SwiperSpaceBetween": SwiperSpaceBetween
   },
   methods: {
-    toReport(){ // 举报
+    toReport:function(){ // 举报
       this.$router.push("/list");
     },
-    toSearch(){ // 查询
+    toSearch:function(){ // 查询
       this.$router.push("/search");
     },
-    toRead(){ // 阅读
+    toRead:function(){ // 阅读
       this.$router.push("/gklg");
     },
   }

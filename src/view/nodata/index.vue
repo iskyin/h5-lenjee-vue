@@ -16,7 +16,7 @@ export default {
     }
   },
   methods: {
-    goback(){
+    goback:function(){
       this.$router.push("/select");
     }
   }

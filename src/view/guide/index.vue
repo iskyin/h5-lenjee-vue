@@ -16,7 +16,7 @@ export default {
     }
   },
   methods: {
-    goSelect(){
+    goSelect:function(){
       this.$router.push('/select');
     }
   }

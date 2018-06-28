@@ -8,7 +8,7 @@ module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',
+    assetsPublicPath: '/',
     proxyTable: {// 配置代理
       '/api':{ // 凡是'/api'开头的http请求都会被代理到此端口下
         target: 'http://'+server.host+':'+ server.port,
