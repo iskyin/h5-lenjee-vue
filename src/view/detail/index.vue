@@ -463,7 +463,7 @@ export default {
 
       let ck_ticket=Cache.cookie.get("ticket");
       let ck_openid=Cache.cookie.get("openid");
-      let cname=Cache.localStorage.set('type');
+      let cname=Cache.localStorage.get('type');
       let _data={
         img_list:this.img.join("|"), // 图片地址 数组最多四张
         desc:this.content,// 举报内容
