@@ -115,5 +115,4 @@ export function getBare(uri,callback){
     callback(rtn);
     return;
   })
-
 }

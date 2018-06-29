@@ -45,8 +45,9 @@
           <input type="file" @change="uploadFile('img')" class="input_file" ref="imgFile" name="" value="">
         </div>
 
-        <div class="frm-list-img-l" v-for='item in img'>
+        <div class="frm-list-img-l" v-for='(item,i) in img'>
           <img :src="item" alt="">
+          <div class="close" @click='close(i,0)'></div>
         </div>
 
       </div>
@@ -66,8 +67,9 @@
           <input type="file" @change="uploadFile('video')" class="input_file" ref="videoFile" name="" value="">
         </div>
 
-        <div class="frm-list-img-l" v-for='item in video'>
+        <div class="frm-list-img-l" v-for='(item,i) in video'>
           <img :src="item" alt="">
+           <div class="close" @click='close(i,1)'></div>
         </div>
 
       </div>
@@ -141,8 +143,8 @@ export default {
       wx_addr:'点击选择', // 地理位置
       user_addr:'', // 详细地址
       sex: '1', // 性别
-      img:[], // 图片地址 最多四张
-      video:[], // 视频地址
+      img:[''] ,// 图片地址 最多四张
+      video:[''], // 视频地址
     }
   },
   activated(){
@@ -159,6 +161,16 @@ export default {
       });
 
       // this.TestFun();
+    },
+    close(i,type){//删除图片
+      if(type ==0){
+        this.img.splice(i,1);
+        console.log(this.img);
+     }else {
+        this.video.splice(i,1);
+        console.log(this.img);
+     }
+
     },
     hideMap:function(){ // 隐藏地图
       this.isShowMap=false;
