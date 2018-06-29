@@ -1,7 +1,7 @@
 <template>
   <div class="guide">
     <div class="img">
-      <img src="@/assets/img/guide.jpg" alt="">
+      <img src="@/assets/img/guide.jpeg" alt="">
       <div class="next" @click="goSelect" ></div>
     </div>
   </div>
