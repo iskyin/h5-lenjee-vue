@@ -69,7 +69,7 @@
 
         <div class="frm-list-img-l" v-for='(item,i) in video'>
           <img :src="item" alt="">
-           <div class="close" @click='close(i,1)'></div>
+          <div class="close" @click='close(i,1)'></div>
         </div>
 
       </div>
@@ -143,8 +143,8 @@ export default {
       wx_addr:'点击选择', // 地理位置
       user_addr:'', // 详细地址
       sex: '1', // 性别
-      img:[''] ,// 图片地址 最多四张
-      video:[''], // 视频地址
+      img:[] ,// 图片地址 最多四张
+      video:[], // 视频地址
     }
   },
   activated(){
