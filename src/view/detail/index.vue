@@ -102,8 +102,6 @@
       提交线索
     </div>
 
-
-
     <div  v-show="isShowMap" id="outer-box">
       <div @click='hideMap()' class="goback">
         <img src="@/assets/img/goback.png" alt=""> <span>确定</span>
@@ -153,6 +151,7 @@ export default {
   methods: {
     initPage:function(){
       _this=this;
+
       // 注册 js-sdk
       let lcUrl=window.location.href;
       RegistJsSdk(this,lcUrl,()=>{
@@ -170,7 +169,6 @@ export default {
         this.video.splice(i,1);
         console.log(this.img);
      }
-
     },
     hideMap:function(){ // 隐藏地图
       this.isShowMap=false;
@@ -210,7 +208,7 @@ export default {
                 },
                 cancel: function (res) {
                   _this.getLoaction('116.397428','39.90923');
-                  alert('用户拒绝授权获取地理位置');
+                  _this.$dialog.alert({mes: '用户拒绝授权获取地理位置'});
                 }
               });
 
@@ -226,212 +224,223 @@ export default {
       });
 
     },
-    openCamera:function(){
-      console.log("*********************************");
-      console.log("获取图片");
-      console.log("*********************************");
 
-      if(_this.img.length>=4){
-        console.log('最多上传四张');
-        return;
-      }
+    // openCamera:function(){
+    //   console.log("*********************************");
+    //   console.log("获取图片");
+    //   console.log("*********************************");
+    //
+    //   if(_this.img.length>=4){
+    //     console.log('最多上传四张');
+    //     return;
+    //   }
+    //
+    //   let ck_ticket=Cache.cookie.get("ticket");
+    //   let ck_openid=Cache.cookie.get("openid");
+    //
+    //   // loading
+    //   _this.$dialog.loading.open('正在上传...');
+    //   // 关闭 loading
+    //   _this.$dialog.loading.close();
+    //
+    //   return;
+    //   window.wx.ready(function () {
+    //       // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+    //       window.wx.checkJsApi({
+    //         jsApiList: [
+    //           'getNetworkType',
+    //           'previewImage'
+    //         ],
+    //         success: function (res) {
+    //
+    //           console.log('***** 判断当前版本是否支持指定 JS 接口，支持批量判断 *****');
+    //           console.log(JSON.stringify(res));
+    //
+    //           // 5.1 拍照、本地选图
+    //           let images = {
+    //             localId: [],
+    //             serverId: []
+    //           };
+    //           window.wx.chooseImage({
+    //             success: function (res) {
+    //               console.log('***** 拍照、本地选图 ***** : ',res);
+    //
+    //               images.localId = res.localIds;
+    //               if (images.localId.length > 4) {
+    //                    _this.$dialog.alert({mes: '最多只能选择四张图片'});
+    //                    return;
+    //               }
+    //
+    //
+    //               // 5.3 上传图片
+    //               let i = 0, length = images.localId.length;
+    //               function upload() {
+    //                 wx.uploadImage({
+    //                   localId: images.localId[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+    //                   isShowProgressTips: 1, // 默认为1，显示进度提示
+    //                   success: function (res) {
+    //                     console.log('uploadImage -> 上传返回值: ',res);
+    //                     i++;
+    //                     images.serverId.push(res.serverId);  // res.serverId 是 返回图片的服务器端ID
+    //
+    //                     let localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+    //
+    //                     let url=window.__APPINFO__.host+"/home/tool/upload";
+    //
+    //                     let formdata = new FormData();
+    //                     formdata.append('file',localData); // 图片或者视频的字段
+    //                     formdata.append('path',"img"); // 存储的路由; 图片上传时，path = img ; 视频上传时，path = vedio;
+    //                     formdata.append('ticket',ck_ticket);
+    //                     formdata.append('openid',ck_openid);
+    //
+    //
+    //                     // 上传到服务器
+    //                     AjaxPostForm(_this,url,formdata,(res)=>{
+    //                       console.log('上传到服务器 -> 返回值 : ', res );
+    //                       // 关闭 loading
+    //                       _this.$dialog.loading.close();
+    //                       if(res.data.code==0){
+    //                         console.log('已上传：' + i + '/' + length);
+    //                         _this.img.push(res.data.result.url);
+    //                       }else{
+    //                         console.log('第：' + i + '/' + length+'上传失败');
+    //                         _this.$dialog.toast({
+    //                             mes:'上传失败',
+    //                             timeout: 1500,
+    //                             icon: 'error'
+    //                         });
+    //                       }
+    //
+    //                     });
+    //
+    //                     if (i < length) {
+    //                       upload();
+    //                     }
+    //
+    //                   },
+    //                   fail: function (res) {
+    //                     console.log('微信上传报错: ',res);
+    //                   }
+    //                 });
+    //               }
+    //               upload();
+    //             }
+    //           });
+    //
+    //         }
+    //       });
+    //
+    //   });
+    //
+    //   window.wx.error(function (res) {
+    //     console.log('***** JS-SDK 注册失败 *****');
+    //     console.log(res);
+    //   });
+    // },
+    // openMedia:function(){
+    //   console.log("*********************************");
+    //   console.log("获取摄像");
+    //   console.log("*********************************");
+    //
+    //   if(_this.img.length>=1){
+    //     console.log('最多上传1张');
+    //     return;
+    //   }
+    //
+    //   let ck_ticket=Cache.cookie.get("ticket");
+    //   let ck_openid=Cache.cookie.get("openid");
+    //
+    //   window.wx.ready(function () {
+    //
+    //       // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+    //       window.wx.checkJsApi({
+    //         jsApiList: [
+    //           'getNetworkType',
+    //           'previewImage'
+    //         ],
+    //         success: function (res) {
+    //
+    //           console.log('***** 判断当前版本是否支持指定 JS 接口，支持批量判断 *****');
+    //           console.log(JSON.stringify(res));
+    //
+    //           // 5.1 拍照、本地选图
+    //           let images = {
+    //             localId: [],
+    //             serverId: []
+    //           };
+    //           window.wx.chooseImage({
+    //             success: function (res) {
+    //               console.log('***** 拍照、本地选图 *****');
+    //               images.localId = res.localIds;
+    //               if (images.localId.length > 1) {
+    //                    _this.$dialog.alert({mes: '最多只能选择1个视频'});
+    //                    return;
+    //               }
+    //               // 5.3 上传图片
+    //               let i = 0, length = images.localId.length;
+    //               function upload() {
+    //                 wx.uploadImage({
+    //                   localId: images.localId[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+    //                   isShowProgressTips: 1, // 默认为1，显示进度提示
+    //                   success: function (res) {
+    //                     console.log('uploadImage -> 上传返回值: ',res);
+    //                     i++;
+    //                     images.serverId.push(res.serverId);  // res.serverId 是 返回图片的服务器端ID
+    //
+    //                     let localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+    //
+    //                     let url=window.__APPINFO__.host+"/home/tool/upload";
+    //
+    //                     let formdata = new FormData();
+    //                     formdata.append('file',localData); // 图片或者视频的字段
+    //                     formdata.append('path',"vedio"); // 存储的路由; 图片上传时，path = img ; 视频上传时，path = vedio;
+    //                     formdata.append('ticket',ck_ticket);
+    //                     formdata.append('openid',ck_openid);
+    //
+    //                     // 上传到服务器
+    //                     AjaxPostForm(_this,url,formdata,(res)=>{
+    //                       console.log('上传到服务器 -> 返回值 : ', res );
+    //                       if(res.data.code == 0 ){
+    //                         console.log('已上传：' + i + '/' + length);
+    //                         _this.img.push(res.data.result.url);
+    //                       }else{
+    //                         console.log('第：' + i + '/' + length+'上传失败');
+    //                         _this.$dialog.toast({
+    //                             mes:'上传失败',
+    //                             timeout: 1500,
+    //                             icon: 'error'
+    //                         });
+    //                       }
+    //
+    //                     })
+    //
+    //                     if (i < length) {
+    //                       upload();
+    //                     }
+    //
+    //                   },
+    //                   fail: function (res) {
+    //                     _this.$dialog.alert({mes: '微信打开图片出错，请重试'});
+    //                     console.log('微信打开图片出错: ',JSON.stringify(res));
+    //                   }
+    //                 });
+    //               }
+    //               upload();
+    //
+    //             }
+    //           });
+    //
+    //         }
+    //       });
+    //
+    //   });
+    //
+    //   window.wx.error(function (res) {
+    //     console.log('***** JS-SDK 注册失败 *****');
+    //     console.log(res);
+    //   });
+    // },
 
-      let ck_ticket=Cache.cookie.get("ticket");
-      let ck_openid=Cache.cookie.get("openid");
-
-      window.wx.ready(function () {
-          // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
-          window.wx.checkJsApi({
-            jsApiList: [
-              'getNetworkType',
-              'previewImage'
-            ],
-            success: function (res) {
-
-              console.log('***** 判断当前版本是否支持指定 JS 接口，支持批量判断 *****');
-              console.log(JSON.stringify(res));
-
-              // 5.1 拍照、本地选图
-              let images = {
-                localId: [],
-                serverId: []
-              };
-              window.wx.chooseImage({
-                success: function (res) {
-                  console.log('***** 拍照、本地选图 ***** : ',res);
-
-                  images.localId = res.localIds;
-                  if (images.localId.length > 4) {
-                       alert('最多只能选择四张图片');
-                       return;
-                  }
-
-                  // 5.3 上传图片
-                  let i = 0, length = images.localId.length;
-                  function upload() {
-                    wx.uploadImage({
-                      localId: images.localId[i], // 需要上传的图片的本地ID，由chooseImage接口获得
-                      isShowProgressTips: 1, // 默认为1，显示进度提示
-                      success: function (res) {
-                        console.log('uploadImage -> 上传返回值: ',res);
-                        i++;
-                        images.serverId.push(res.serverId);  // res.serverId 是 返回图片的服务器端ID
-
-                        let localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-
-                        let url=window.__APPINFO__.host+"/home/tool/upload";
-
-                        let formdata = new FormData();
-                        formdata.append('file',localData); // 图片或者视频的字段
-                        formdata.append('path',"img"); // 存储的路由; 图片上传时，path = img ; 视频上传时，path = vedio;
-                        formdata.append('ticket',ck_ticket);
-                        formdata.append('openid',ck_openid);
-
-                        // 上传到服务器
-                        AjaxPostForm(_this,url,formdata,(res)=>{
-                          console.log('上传到服务器 -> 返回值 : ', res );
-                          if(res.data.code==0){
-                            console.log('已上传：' + i + '/' + length);
-                            _this.img.push(res.data.result.url);
-
-                          }else{
-                            console.log('第：' + i + '/' + length+'上传失败');
-                            _this.$dialog.toast({
-                                mes:'上传失败',
-                                timeout: 1500,
-                                icon: 'error'
-                            });
-                          }
-
-                        });
-
-                        if (i < length) {
-                          upload();
-                        }
-
-                      },
-                      fail: function (res) {
-                        alert(JSON.stringify(res));
-                      }
-                    });
-                  }
-                  upload();
-
-                }
-              });
-
-            }
-          });
-
-      });
-
-      window.wx.error(function (res) {
-        console.log('***** JS-SDK 注册失败 *****');
-        console.log(res);
-      });
-    },
-    openMedia:function(){
-      console.log("*********************************");
-      console.log("获取摄像");
-      console.log("*********************************");
-
-      if(_this.img.length>=1){
-        console.log('最多上传1张');
-        return;
-      }
-
-      let ck_ticket=Cache.cookie.get("ticket");
-      let ck_openid=Cache.cookie.get("openid");
-
-      window.wx.ready(function () {
-
-          // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
-          window.wx.checkJsApi({
-            jsApiList: [
-              'getNetworkType',
-              'previewImage'
-            ],
-            success: function (res) {
-
-              console.log('***** 判断当前版本是否支持指定 JS 接口，支持批量判断 *****');
-              console.log(JSON.stringify(res));
-
-              // 5.1 拍照、本地选图
-              let images = {
-                localId: [],
-                serverId: []
-              };
-              window.wx.chooseImage({
-                success: function (res) {
-                  console.log('***** 拍照、本地选图 *****');
-                  images.localId = res.localIds;
-                  if (images.localId.length > 1) {
-                       alert('最多只能选择1个视频');
-                       return;
-                  }
-                  // 5.3 上传图片
-                  let i = 0, length = images.localId.length;
-                  function upload() {
-                    wx.uploadImage({
-                      localId: images.localId[i], // 需要上传的图片的本地ID，由chooseImage接口获得
-                      isShowProgressTips: 1, // 默认为1，显示进度提示
-                      success: function (res) {
-                        console.log('uploadImage -> 上传返回值: ',res);
-                        i++;
-                        images.serverId.push(res.serverId);  // res.serverId 是 返回图片的服务器端ID
-
-                        let localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-
-                        let url=window.__APPINFO__.host+"/home/tool/upload";
-
-                        let formdata = new FormData();
-                        formdata.append('file',localData); // 图片或者视频的字段
-                        formdata.append('path',"vedio"); // 存储的路由; 图片上传时，path = img ; 视频上传时，path = vedio;
-                        formdata.append('ticket',ck_ticket);
-                        formdata.append('openid',ck_openid);
-
-                        // 上传到服务器
-                        AjaxPostForm(_this,url,formdata,(res)=>{
-                          console.log('上传到服务器 -> 返回值 : ', res );
-                          if(res.data.code == 0 ){
-                            console.log('已上传：' + i + '/' + length);
-                            _this.img.push(res.data.result.url);
-                          }else{
-                            console.log('第：' + i + '/' + length+'上传失败');
-                            _this.$dialog.toast({
-                                mes:'上传失败',
-                                timeout: 1500,
-                                icon: 'error'
-                            });
-                          }
-
-                        })
-
-                        if (i < length) {
-                          upload();
-                        }
-
-                      },
-                      fail: function (res) {
-                        alert(JSON.stringify(res));
-                      }
-                    });
-                  }
-                  upload();
-
-                }
-              });
-
-            }
-          });
-
-      });
-
-      window.wx.error(function (res) {
-        console.log('***** JS-SDK 注册失败 *****');
-        console.log(res);
-      });
-    },
     dataValidation:function(){
       let rtn={
         code:true,
@@ -677,9 +686,14 @@ export default {
       formdata.append('path',e); // 存储的路由; 图片上传时，path = img ; 视频上传时，path = vedio;
       formdata.append('ticket',ck_ticket);
       formdata.append('openid',ck_openid);
+      // loading
+      _this.$dialog.loading.open('正在上传...');
+
 
       // 上传到服务器
       AjaxPostForm(_this,url,formdata,(res)=>{
+        // 关闭 loading
+        _this.$dialog.loading.close();
         console.log('上传到服务器 -> 返回值 : ', res );
         if(res.data.code == 0 ){
           let addImgUrl=window.__APPINFO__.host+res.data.result.url;
