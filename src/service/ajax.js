@@ -17,6 +17,7 @@
      callback(response);
    })
    .catch((error)=>{
+     self.$dialog.alert({mes: '链接服务器异常，请稍后重试'});
      console.log("报错: ",error);
      callback(error);
    });

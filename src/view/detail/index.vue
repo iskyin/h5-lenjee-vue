@@ -507,11 +507,7 @@ export default {
         if(res.data.code==0){
           _this.$router.push("/sucess");
         }else{
-          _this.$dialog.confirm({
-            mes: res.data.msg ,
-            timeout: 1500,
-            icon: 'success'
-          });
+          _this.$dialog.alert({mes: 'res.data.msg'});
         }
 
       });
@@ -667,6 +663,17 @@ export default {
           return;
         }
         useFile=_this.$refs.imgFile.files[0];
+
+        console.log('input.file.files : ',useFile)
+        console.log('file type : ',useFile.type)
+
+        let fileType=useFile.type.split('/')[1];
+        if(fileType=='jpeg'||fileType=='jpg'||fileType=='png'){
+          console.log("格式正确")
+        }else{
+          _this.$dialog.alert({mes: '上传图片的格式有误，请上传正确格式的图片'});
+          return;
+        }
       }
 
       if(e=='video'){
@@ -675,9 +682,21 @@ export default {
           return;
         }
         useFile=_this.$refs.videoFile.files[0];
+        console.log('input.file.files : ',useFile)
+        console.log('file type : ',useFile.type)
+
+        let fileType=useFile.type.split('/')[1];
+        if(fileType=='mov'||fileType=='mp4'){
+          console.log("视频格式正确")
+        }else{
+          _this.$dialog.alert({mes: '上传视频格式有误，请上传正确格式的视频'});
+          return;
+        }
       }
 
-      console.log('input.file.files : ',useFile)
+
+      // loading
+      _this.$dialog.loading.open('正在上传...');
 
       let url=window.__APPINFO__.host+"/home/tool/upload";
 
@@ -686,9 +705,6 @@ export default {
       formdata.append('path',e); // 存储的路由; 图片上传时，path = img ; 视频上传时，path = vedio;
       formdata.append('ticket',ck_ticket);
       formdata.append('openid',ck_openid);
-      // loading
-      _this.$dialog.loading.open('正在上传...');
-
 
       // 上传到服务器
       AjaxPostForm(_this,url,formdata,(res)=>{
