@@ -64,14 +64,12 @@
       </div>
       <div class="frm-list-img">
         <div class="frm-list-img-v">
-          <input type="file" @change="uploadFile('video')" class="input_file" ref="videoFile" name="" value="">
+          <input type="file" @change="uploadFile('video')" class="input_file" accept="video/*" capture="camera" ref="videoFile" name="" value="">
         </div>
-
         <div class="frm-list-img-l" v-for='(item,i) in video'>
           <video  class="video" :src="item">您的浏览器不支持 video 标签</video>
           <div class="close" @click='close(i,1)'></div>
         </div>
-
       </div>
     </div>
 
