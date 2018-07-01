@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="frm-list-img">
-        <div class="frm-list-img-l">
+        <div class="frm-list-img-l _bg">
           <input type="file" @change="uploadFile('img')" class="input_file" ref="imgFile" name="" value="">
         </div>
 
