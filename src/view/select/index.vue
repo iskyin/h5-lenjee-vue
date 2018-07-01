@@ -11,7 +11,7 @@
         <img src="@/assets/img/ico-sc.png" alt="">
         <p>举报查询</p>
       </div>
-      <div  @click=" " class="sel-btn gren">
+      <div  @click="toRead" class="sel-btn gren">
         <img src="@/assets/img/ico-knlg.png" alt="">
         <p>公益诉讼常识</p>
       </div>
