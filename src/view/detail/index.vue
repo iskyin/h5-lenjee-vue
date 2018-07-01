@@ -68,7 +68,7 @@
         </div>
 
         <div class="frm-list-img-l" v-for='(item,i) in video'>
-          <img :src="item" alt="">
+          <video  class="video" :src="item">您的浏览器不支持 video 标签</video>
           <div class="close" @click='close(i,1)'></div>
         </div>
 
