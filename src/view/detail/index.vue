@@ -684,7 +684,7 @@ export default {
         console.log('file type : ',useFile.type)
 
         let fileType=useFile.type.split('/')[1];
-        if(fileType=='mov'||fileType=='mp4'){
+        if(fileType=='mov'||fileType=='mp4'||fileType=='quicktime'){
           console.log("视频格式正确")
         }else{
           _this.$dialog.alert({mes: '上传视频格式有误，请上传正确格式的视频'});
